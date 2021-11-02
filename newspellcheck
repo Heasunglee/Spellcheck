@@ -53,7 +53,6 @@ def menu(dictionary,aliceWords):
         if selection == "1":
             itemInput = input("Please enter a word: ")
             startTime = time.time()
-            print(itemInput)
             print("Linear Search Starting...")
             for item in dictionary:
                 if item == itemInput:
@@ -69,7 +68,6 @@ def menu(dictionary,aliceWords):
         elif selection == "2":
             itemInput = input("Please enter a word: ")
             startTime = time.time()
-            print(itemInput)
             print("Binary Search Starting...")
             for item in dictionary:
                 if item == itemInput:

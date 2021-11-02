@@ -1,0 +1,109 @@
+import re
+import time
+ 
+def main():
+    dictionary = loadWordsFromFile("data-files/dictionary.txt")
+    aliceWords = loadWordsFromFile("data-files/AliceInWonderLand.txt")
+    return dictionary, aliceWords
+ 
+ 
+def loadWordsFromFile(fileName):
+    fileref = open(fileName, "r")
+    textData = fileref.read()
+    fileref.close()
+    return re.split('\s+', textData)
+ 
+ 
+def linearSearch(anArray,item):
+   for i in range(len(anArray)):
+       if anArray[i] == item:
+           return i
+   return -1
+ 
+ 
+def binarySearch(anArray,item):
+    low = 0
+    high = len(anArray) -1
+ 
+    while low <= high:
+        mid = (low+high) // 2
+        if item == anArray[mid]:
+            return mid
+        elif item < anArray[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1
+ 
+ 
+def menu(dictionary,aliceWords):
+    loop = True
+    while loop:
+        print("\nMain Menu")
+        print("1: Spell Check a Word (Linear Search)")
+        print("2: Spell Check a Word (Binary Search)")
+        print("3: Spell Check Alice In Wonderland (Linear Search)")
+        print("4: Spell Check Alice In Wonderland (Binary Search)")
+        print("5: Exit")
+ 
+        selection = input("\nEnter menu selection 1-5): ")
+        aliceCount = 0
+ 
+ 
+        if selection == "1":
+            itemInput = input("Please enter a word: ")
+            startTime = time.time()
+            print(itemInput)
+            print("Linear Search Starting...")
+            for item in dictionary:
+                if item == itemInput:
+                    i = linearSearch(dictionary,item)
+                    timeElapsed = time.time() - startTime
+                    print(itemInput,"is IN the dictionary at position",i,"(",timeElapsed,"seconds",")")
+                    break
+            else:
+                timeElapsed = time.time() - startTime
+                print(itemInput,"is NOT in the dictionary","(",timeElapsed,"seconds",")")
+ 
+ 
+        elif selection == "2":
+            itemInput = input("Please enter a word: ")
+            startTime = time.time()
+            print(itemInput)
+            print("Binary Search Starting...")
+            for item in dictionary:
+                if item == itemInput:
+                    mid = binarySearch(dictionary,item)
+                    timeElapsed = time.time() - startTime
+                    print(itemInput,"is IN the dictionary at position",mid,"(",timeElapsed,"seconds",")")
+                    break
+            else:
+                timeElapsed = time.time() - startTime
+                print(itemInput,"is NOT in the dictionary","(",timeElapsed,"seconds",")")
+       
+ 
+        elif selection == "3":
+            startTime = time.time()
+            for item in aliceWords:
+                if linearSearch(dictionary, item.lower()) == -1:
+                    aliceCount += 1
+                    timeElapsed = time.time() - startTime
+            print("Linear Search Searching...")
+            print("Number of words not found in dictionary: ", aliceCount,"(",timeElapsed,"seconds",")")
+ 
+        elif selection == "4":
+            startTime = time.time()
+            for item in aliceWords:
+                if binarySearch(dictionary, item.lower()) == -1:
+                    aliceCount += 1
+                    timeElapsed = time.time() - startTime
+            print("Binary Search Searching...")
+            print("Number of words not found in dictionary: ", aliceCount,"(",timeElapsed,"seconds",")")
+ 
+        else:
+            selection == "5"
+            print("Exited")
+            loop = False
+ 
+dictionary, aliceWords = main()
+menu(dictionary,aliceWords)
